@@ -71,7 +71,15 @@ func secretHandler(next http.Handler) http.Handler {
 }
 
 func main() {
-	root := os.Args[1]
+	var root string
+	if len(os.Args) > 1 {
+		root = os.Args[1]
+	} else {
+		root = "."
+	}
+
+	log.Println("Serve files at " + root)
+
 	handler := http.FileServer(http.Dir(root))
 	http.Handle("/", secretHandler(handler))
 
