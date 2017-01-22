@@ -61,7 +61,7 @@ func secretHandler(next http.Handler) http.Handler {
 		}
 		sig := fmt.Sprintf("%x", md5.Sum([]byte(base)))
 
-		if sig == signature {
+		if sig[8:16] == signature {
 			next.ServeHTTP(w, r)
 		} else {
 			w.WriteHeader(http.StatusForbidden)

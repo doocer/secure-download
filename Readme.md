@@ -23,13 +23,13 @@ A full example:
 A request URL looks like:
 
 ```
-http://example.com/path/download.bin?e=1485015757&s=09e1552be3347c71955bc2cffcbdf227
+http://example.com/path/download.bin?e=1485015757&s=be3347c7
 ```
 
 Parameter `e` is expire time, `s` is signature.
 
 ```
-signature = md5(${SECRET_KEY} + ${URLPATH} + $expires [ + $remote_addr ])
+signature = md5(${SECRET_KEY} + ${URLPATH} + $expires [ + $remote_addr ])[8:16]
 ```
 
 Example when not including client IP:
@@ -39,8 +39,9 @@ Example when not including client IP:
 3. request path: /book/hello.epub
 
 The base string is `secret/book/hello.epub1485015757`, its md5 hexdigest is
-`ba68c8d4c8d6dde327925df16cea8b17`. Therefore, the request URL is:
+`ba68c8d4c8d6dde327925df16cea8b17`. Slice hexdigest with `[8:16]`, therefore,
+the request URL is:
 
 ```
-http://example.com/book/hello.epub?e=1485015757&s=ba68c8d4c8d6dde327925df16cea8b17
+http://example.com/book/hello.epub?e=1485015757&s=c8d6dde3
 ```
