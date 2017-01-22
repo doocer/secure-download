@@ -2,7 +2,7 @@ package main
 
 import (
 	"crypto/md5"
-	"fmt"
+	"encoding/hex"
 	"log"
 	"net/http"
 	"net/url"
@@ -59,7 +59,10 @@ func secretHandler(next http.Handler) http.Handler {
 		} else {
 			base = secret + r.URL.Path + expires + r.RemoteAddr
 		}
-		sig := fmt.Sprintf("%x", md5.Sum([]byte(base)))
+
+		hasher := md5.New()
+		hasher.Write([]byte(base))
+		sig := hex.EncodeToString(hasher.Sum(nil))
 
 		if sig[8:16] == signature {
 			next.ServeHTTP(w, r)
