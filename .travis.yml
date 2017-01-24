@@ -1,0 +1,21 @@
+language: go
+go:
+  - 1.7
+env:
+  - "PATH=/home/travis/gopath/bin:$PATH"
+
+install:
+  - go get github.com/mitchellh/gox
+
+script:
+  - gox -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}"
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: dist/*
+  file_glob: true
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
