@@ -22,7 +22,7 @@ func secretHandler(next http.Handler) http.Handler {
 			return
 		}
 
-		// step 2: query string show be valid
+		// step 2: query string should be valid
 		values, err := url.ParseQuery(r.URL.RawQuery)
 		if err != nil {
 			w.WriteHeader(http.StatusForbidden)
